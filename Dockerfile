@@ -1,5 +1,5 @@
-# Используем Node.js 22 для соответствия Timeweb Cloud
-FROM node:22-alpine
+# Используем Node.js 20 для лучшей совместимости
+FROM node:20-alpine
 
 # Создаем рабочую директорию
 WORKDIR /app
