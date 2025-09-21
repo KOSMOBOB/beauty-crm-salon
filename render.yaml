@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: beauty-crm-api
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        value: beauty_crm_super_secret_jwt_key_2024_production
+      - key: DB_PATH
+        value: ./database/beauty_crm.db
+      - key: PORT
+        sync: false
+    healthCheckPath: /api/health
