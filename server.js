@@ -14,9 +14,18 @@ const clientRoutes = require('./routes/clients');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Инициализация базы данных
-const db = new Database();
-db.initialize();
+// Инициализация базы данных с обработкой ошибок
+try {
+  const db = new Database();
+  db.initialize();
+  console.log('✅ База данных инициализирована');
+} catch (error) {
+  console.error('❌ Ошибка инициализации БД:', error.message);
+  // В production продолжаем работу без БД (mock режим)
+  if (process.env.NODE_ENV !== 'production') {
+    process.exit(1);
+  }
+}
 
 // Middlewares
 app.use(helmet({
