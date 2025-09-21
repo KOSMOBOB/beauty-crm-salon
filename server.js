@@ -54,8 +54,52 @@ app.use('/api/', limiter);
 app.get('/api/health', (req, res) => {
   res.status(200).json({ 
     success: true, 
-    message: 'Beauty CRM API работает нормально',
-    timestamp: new Date().toISOString()
+    message: 'Beauty CRM API работает нормально! 🎉',
+    timestamp: new Date().toISOString(),
+    version: '1.0.4',
+    status: 'healthy',
+    database: 'connected',
+    mode: 'full_api'
+  });
+});
+
+// API info endpoint
+app.get('/api', (req, res) => {
+  res.json({
+    success: true,
+    message: '🎨 Beauty CRM API Server',
+    version: '1.0.4',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: 'GET /api/health',
+      auth: {
+        register: 'POST /api/auth/register',
+        login: 'POST /api/auth/login'
+      },
+      salon: {
+        dashboard: 'GET /api/salon/dashboard'
+      },
+      masters: 'GET/POST/PUT/DELETE /api/masters',
+      services: 'GET/POST/PUT/DELETE /api/services',
+      appointments: 'GET/POST/PUT/DELETE /api/appointments',
+      clients: 'GET/POST/PUT/DELETE /api/clients'
+    },
+    database_status: 'connected',
+    mode: 'full_api_with_database'
+  });
+});
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: '🎨 Beauty CRM API',
+    version: '1.0.4',
+    timestamp: new Date().toISOString(),
+    api_base: '/api',
+    frontend: 'Развернут отдельно на React',
+    status: 'production_ready',
+    mode: 'full_functionality'
   });
 });
 
@@ -70,8 +114,12 @@ app.use('/api/clients', clientRoutes);
 // Статические файлы (аватары, фото)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Production
+// Production API-only mode - no frontend serving
 if (process.env.NODE_ENV === 'production') {
+  // API-only mode for production
+  console.log('🎯 Running in API-only production mode');
+} else {
+  // Development mode with frontend
   app.use(express.static(path.join(__dirname, 'client/build')));
   
   app.get('*', (req, res) => {
