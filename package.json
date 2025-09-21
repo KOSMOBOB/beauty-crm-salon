@@ -2,13 +2,13 @@
   "name": "beauty-crm",
   "version": "1.0.0",
   "description": "CRM система для салонов красоты",
-  "main": "server.js",
+  "main": "server-api.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server.js",
     "client": "cd client && npm start",
     "build": "cd client && npm run build",
-    "start": "node server.js",
+    "start": "node server-api.js",
     "install-all": "npm install && cd client && npm install"
   },
   "dependencies": {
